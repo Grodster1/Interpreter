@@ -28,7 +28,7 @@ AbstractInterp4Command* CreateCmd(void)
 /*!
  *
  */
-Interp4Move::Interp4Move(): _Speed_mmS(0)
+Interp4Move::Interp4Move(): obj_name("Jajco"),_Speed_mmS(0), _Distance(0) 
 {}
 
 
@@ -40,7 +40,7 @@ void Interp4Move::PrintCmd() const
   /*
    *  Tu trzeba napisać odpowiednio zmodyfikować kod poniżej.
    */
-  cout << GetCmdName() << " " << _Speed_mmS  << " 10  2" << endl;
+  cout << GetCmdName() << " " << obj_name << " " <<  _Speed_mmS  << " " << _Distance << endl;
 }
 
 
@@ -73,12 +73,20 @@ bool Interp4Move::ExecCmd( AbstractScene      &rScn,
  */
 bool Interp4Move::ReadParams(std::istream& Strm_CmdsList)
 {
-  /*
-   *  Tu trzeba napisać odpowiedni kod.
-   */
+  if(!(Strm_CmdsList >> obj_name)){
+    std::cout << "Nie wczytano poprawnie nazwy obiektu" << std::endl;
+    return false;
+  }
+  if(!(Strm_CmdsList >> _Speed_mmS)){
+    std::cout << "Nie wczytano poprawnie predkosci obiektu" << std::endl;
+    return false;
+  }
+  if(!(Strm_CmdsList >> _Distance)){
+    std::cout << "Nie wczytano poprawnie dystansu ruchu" << std::endl;
+    return false;
+  }
   return true;
 }
-
 
 /*!
  *
@@ -88,11 +96,10 @@ AbstractInterp4Command* Interp4Move::CreateCmd()
   return new Interp4Move();
 }
 
-
 /*!
  *
  */
 void Interp4Move::PrintSyntax() const
 {
-  cout << "   Move  NazwaObiektu  Szybkosc[m/s]  DlugoscDrogi[m]" << endl;
+  cout << "Move  NazwaObiektu  Szybkosc[m/s]  DlugoscDrogi[m]" << endl;
 }

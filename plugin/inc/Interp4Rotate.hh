@@ -10,9 +10,9 @@
 
 /*!
  * \file
- * \brief Definicja klasy Interp4Move
+ * \brief Definicja klasy Interp4Rotate
  *
- * Plik zawiera definicję klasy Interp4Move ...
+ * Plik zawiera definicję klasy Interp4Rotate ...
  */
 
 /*!
@@ -20,21 +20,22 @@
  *
  *  Klasa modeluj47e ...
  */
-class Interp4Move: public AbstractInterp4Command {
+class Interp4Rotate: public AbstractInterp4Command {
   /*
    *  Tu należy zdefiniować pola, które są niezbędne
    *  do przechowywania wartości parametrów danego polecenia.
    *  Ponieżej zdefiniowane jest tylko jedno pole jako przykład.
    */
   std::string obj_name;
-  double  _Speed_mmS;
-  double _Distance;
+  std::string  axis_name;
+  double rot_speed_;
+  double rot_deg_;
   
  public:
   /*!
    * \brief
    */
-  Interp4Move();  
+  Interp4Rotate();  
   /*!
    * \brief Wyświetla postać bieżącego polecenia (nazwę oraz wartości parametrów)
    */
