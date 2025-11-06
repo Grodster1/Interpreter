@@ -5,14 +5,13 @@
 # pragma interface
 # pragma implementation
 #endif
-
 #include "AbstractInterp4Command.hh"
 
 /*!
  * \file
- * \brief Definicja klasy Interp4Rotate
+ * \brief Definicja klasy Interp4Pause
  *
- * Plik zawiera definicję klasy Interp4Rotate ...
+ * Plik zawiera definicję klasy Interp4Pause ...
  */
 
 /*!
@@ -20,22 +19,19 @@
  *
  *  Klasa modeluj47e ...
  */
-class Interp4Rotate: public AbstractInterp4Command {
+class Interp4Pause: public AbstractInterp4Command {
   /*
    *  Tu należy zdefiniować pola, które są niezbędne
    *  do przechowywania wartości parametrów danego polecenia.
    *  Ponieżej zdefiniowane jest tylko jedno pole jako przykład.
    */
-  std::string _ObjName;
-  std::string  _AxisName;
-  double _RotSpeed;
-  double _RotDegree;
+  double  _PauseTime;
   
  public:
   /*!
    * \brief
    */
-  Interp4Rotate();  
+  Interp4Pause();  
   /*!
    * \brief Wyświetla postać bieżącego polecenia (nazwę oraz wartości parametrów)
    */

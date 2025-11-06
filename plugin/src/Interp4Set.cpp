@@ -27,7 +27,7 @@ AbstractInterp4Command* CreateCmd(void)
 /*!
  *
  */
-Interp4Set::Interp4Set(): obj_name("Jajco"),pos_x_(0), pos_y_(0), pos_z_(0), angle_x_(0), angle_y_(0), angle_z_(0) 
+Interp4Set::Interp4Set(): _ObjName("Jajco"),_PosX(0), _PosY(0), _PosZ(0), _AngleX(0), _AngleY(0), _AngleZ(0) 
 {}
 
 
@@ -39,7 +39,7 @@ void Interp4Set::PrintCmd() const
   /*
    *  Tu trzeba napisać odpowiednio zmodyfikować kod poniżej.
    */
-  cout << GetCmdName() << " " << obj_name << " " <<  pos_x_ << " " <<  pos_y_ << " " << pos_z_ << " " << angle_x_ << " " << angle_y_ << " " << angle_z_<< endl;
+  cout << GetCmdName() << " " << _ObjName << " " <<  _PosX << " " <<  _PosY << " " << _PosZ << " " << _AngleX << " " << _AngleY << " " << _AngleZ<< endl;
 }
 
 
@@ -72,31 +72,31 @@ bool Interp4Set::ExecCmd( AbstractScene      &rScn,
  */
 bool Interp4Set::ReadParams(std::istream& Strm_CmdsList)
 {
-  if(!(Strm_CmdsList >> obj_name)){
+  if(!(Strm_CmdsList >> _ObjName)){
     std::cout << "Nie wczytano poprawnie nazwy obiektu" << std::endl;
     return false;
   }
-  if(!(Strm_CmdsList >> pos_x_)){
+  if(!(Strm_CmdsList >> _PosX)){
     std::cout << "Nie wczytano poprawnie pozycji x obiektu" << std::endl;
     return false;
   }
-  if(!(Strm_CmdsList >> pos_y_)){
+  if(!(Strm_CmdsList >> _PosY)){
     std::cout << "Nie wczytano poprawnie pozycji y obiektu" << std::endl;
     return false;
   }
-  if(!(Strm_CmdsList >> pos_z_)){
+  if(!(Strm_CmdsList >> _PosZ)){
     std::cout << "Nie wczytano poprawnie pozycji z obiektu" << std::endl;
     return false;
   }
-  if(!(Strm_CmdsList >> angle_x_)){
+  if(!(Strm_CmdsList >> _AngleX)){
     std::cout << "Nie wczytano poprawnie orientacji wzgledem osi x" << std::endl;
     return false;
   }
-  if(!(Strm_CmdsList >> angle_y_)){
+  if(!(Strm_CmdsList >> _AngleY)){
     std::cout << "Nie wczytano poprawnie orientacji wzgledem osi y" << std::endl;
     return false;
   }
-  if(!(Strm_CmdsList >> angle_z_)){
+  if(!(Strm_CmdsList >> _AngleZ)){
     std::cout << "Nie wczytano poprawnie orientacji wzgledem osi z" << std::endl;
     return false;
   }
@@ -116,5 +116,5 @@ AbstractInterp4Command* Interp4Set::CreateCmd()
  */
 void Interp4Set::PrintSyntax() const
 {
-  cout << "Move  NazwaObiektu  Szybkosc[m/s]  DlugoscDrogi[m]" << endl;
+  cout << "Move  NazwaObiektu  wsp_x  wsp_y  wsp_z  kat_OX  kat_OY  kat_OZ" << endl;
 }

@@ -28,7 +28,7 @@ AbstractInterp4Command* CreateCmd(void)
 /*!
  *
  */
-Interp4Rotate::Interp4Rotate(): obj_name("Jajco"), axis_name("OX"), rot_speed_(0), rot_deg_(0) 
+Interp4Rotate::Interp4Rotate(): _ObjName("Jajco"), _AxisName("OX"), _RotSpeed(0), _RotDegree(0) 
 {}
 
 
@@ -40,7 +40,7 @@ void Interp4Rotate::PrintCmd() const
   /*
    *  Tu trzeba napisać odpowiednio zmodyfikować kod poniżej.
    */
-  cout << GetCmdName() << " " << obj_name << " " << axis_name <<  " " << rot_speed_  << " " << rot_deg_ << endl;
+  cout << GetCmdName() << " " << _ObjName << " " << _AxisName <<  " " << _RotSpeed  << " " << _RotDegree << endl;
 }
 
 
@@ -73,19 +73,19 @@ bool Interp4Rotate::ExecCmd( AbstractScene      &rScn,
  */
 bool Interp4Rotate::ReadParams(std::istream& Strm_CmdsList)
 {
-  if(!(Strm_CmdsList >> obj_name)){
+  if(!(Strm_CmdsList >> _ObjName)){
     std::cout << "Nie wczytano poprawnie nazwy obiektu" << std::endl;
     return false;
   }
-  if(!(Strm_CmdsList >> axis_name)){
+  if(!(Strm_CmdsList >> _AxisName)){
     std::cout << "Nie wczytano poprawnie nazwy osi obrotu obiektu" << std::endl;
     return false;
   }
-  if(!(Strm_CmdsList >> rot_speed_)){
+  if(!(Strm_CmdsList >> _RotSpeed)){
     std::cout << "Nie wczytano poprawnie predkosci obrotu obiektu" << std::endl;
     return false;
   }
-  if(!(Strm_CmdsList >> rot_deg_)){
+  if(!(Strm_CmdsList >> _RotDegree)){
     std::cout << "Nie wczytano poprawnie zakresu obrotu obiektu" << std::endl;
     return false;
   }
@@ -105,5 +105,5 @@ AbstractInterp4Command* Interp4Rotate::CreateCmd()
  */
 void Interp4Rotate::PrintSyntax() const
 {
-  cout << "   Rotate  NazwaObiektu  NazwaOsi  SzybkoscKatowa [deg/s]  KatObrou [deg]" << endl;
+  cout << "Rotate  NazwaObiektu  NazwaOsi  SzybkoscKatowa [deg/s]  KatObrotu [deg]" << endl;
 }
