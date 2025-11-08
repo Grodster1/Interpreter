@@ -1,5 +1,5 @@
-#ifndef  COMMAND4ROTATE_HH
-#define  COMMAND4ROTATE_HH
+#ifndef  COMMAND4PAUSE_HH
+#define  COMMAND4PAUSE_HH
 
 #ifndef __GNUG__
 # pragma interface

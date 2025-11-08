@@ -2,7 +2,6 @@
 #include "AbstractInterp4Command.hh"
 
 class LibInterface{
-private:
     void* _libHandle;
     std::string _cmdName;
     AbstractInterp4Command* (*_pCreateCmd)(void); //_pCreateCmd wskazuje na funkcję z .so, która tworzy i zwraca obiekt pasujący do interfejsu AbstractInterp4Command

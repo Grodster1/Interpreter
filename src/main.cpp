@@ -1,7 +1,12 @@
 #include <iostream>
 #include <dlfcn.h>
 #include <cassert>
+#include <list>
+#include <sstream>
+#include <cstdlib>
+#include <array>
 #include "AbstractInterp4Command.hh"
+#include "PluginManager.hh"
 
 using namespace std;
 
@@ -10,7 +15,7 @@ using namespace std;
 
 int main()
 {
-  void *pLibHnd_Rotate = dlopen(PLUGIN_NAME__rotate,RTLD_LAZY);
+  /*void *pLibHnd_Rotate = dlopen(PLUGIN_NAME__rotate,RTLD_LAZY);
   AbstractInterp4Command *(*pCreateCmd_Rotate)(void);
   void *pFun;
 
@@ -40,5 +45,31 @@ int main()
   
   delete pCmd;
 
-  dlclose(pLibHnd_Rotate);
+  dlclose(pLibHnd_Rotate);*/
+  std::string cmdFile = "./cmd.tmp";
+  std::list<std::string> pluginList = {"libInterp4Rotate.so", "libInterp4Set.so", "libInterp4Move.so", "libInterp4Pause.so"};
+  std::string keyWord;
+  PluginManager pManager(pluginList);
+
+  std::string cmd = "cpp " + cmdFile;
+  std::stringstream ppStream;
+  std::array<char, 128> buf;
+
+  FILE* File = popen(cmd.c_str(), "r");
+  if(!File){
+    std::cerr << "Blad przy wywolaniu funkcji popen()" << std::endl;
+    return 1;
+  }
+
+  while (fgets(buf.data(), buf.size(), File)){
+    ppStream << buf.data();
+  }
+  pclose(File);
+
+  //std::cout << ppStream.str() << std::endl;
+  while(ppStream >> keyWord){
+    if(pManager.isInMap(keyWord)){
+      pManager.CreateCmd(keyWord)->PrintSyntax();
+    }
+  }
 }

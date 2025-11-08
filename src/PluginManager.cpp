@@ -8,10 +8,28 @@ PluginManager::PluginManager(std::list<std::string> libPaths){
             std::string cmdName = pLib->GetCmdName();
             _libMap[cmdName] = pLib;
 
-            std::cout << "Poprawnie załadowano wtyczkę dla komendy " << cmdName << std::endl;
+            std::cout << "Poprawnie załadowano wtyczke dla komendy " << cmdName << std::endl;
         }
         catch(const std::runtime_error &error){
             std::cerr << "Wystapil blad przy ladowaniu wtyczki z pliku: " << path << "\nError: " << error.what() << std::endl;
         }
     }
 }
+
+bool PluginManager::isInMap(const std::string& cmdName) const{
+    if(auto it = _libMap.find(cmdName) == _libMap.end()){
+        return false;
+    }
+    return true;
+}
+
+AbstractInterp4Command* PluginManager::CreateCmd(const std::string& cmdName){
+    auto it = _libMap.find(cmdName);
+    if(it == _libMap.end()){
+        return nullptr;
+    }
+    std::shared_ptr ptr = it->second;
+    return ptr->CreateCmd();
+}
+
+PluginManager::~PluginManager(){}

@@ -11,5 +11,7 @@ class PluginManager{
 public:
     PluginManager(std::list<std::string> libPaths);
     ~PluginManager();
+    bool isInMap(const std::string& cmdName) const;
+    AbstractInterp4Command* CreateCmd(const std::string& cmdName);
 
 };

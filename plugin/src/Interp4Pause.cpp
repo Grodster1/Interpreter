@@ -8,7 +8,7 @@ using std::endl;
 
 extern "C" {
   AbstractInterp4Command* CreateCmd(void);
-  const char* GetCmdName() { return "Rotate"; }
+  const char* GetCmdName() { return "Pause"; }
 }
 
 
