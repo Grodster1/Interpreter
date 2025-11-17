@@ -1,5 +1,5 @@
 #include <iostream>
-#include <PluginManager.hh>
+#include "PluginManager.hh"
 
 PluginManager::PluginManager(std::list<std::string> libPaths){
     for(std::string& path : libPaths){
@@ -8,7 +8,7 @@ PluginManager::PluginManager(std::list<std::string> libPaths){
             std::string cmdName = pLib->GetCmdName();
             _libMap[cmdName] = pLib;
 
-            std::cout << "Poprawnie załadowano wtyczke dla komendy " << cmdName << std::endl;
+            std::cout << "Poprawnie zaladowano wtyczke dla komendy " << cmdName << std::endl;
         }
         catch(const std::runtime_error &error){
             std::cerr << "Wystapil blad przy ladowaniu wtyczki z pliku: " << path << "\nError: " << error.what() << std::endl;
@@ -31,5 +31,14 @@ AbstractInterp4Command* PluginManager::CreateCmd(const std::string& cmdName){
     std::shared_ptr ptr = it->second;
     return ptr->CreateCmd();
 }
+
+/*AbstractInterp4Command* PluginManager::ReadParams(const std::istream& Strm_CmdsList, const std::string& cmdName){
+    auto it = _libMap.find(cmdName);
+    if(it == _libMap.end()){
+        return nullptr;
+    }
+    std::shared_ptr ptr = it->second;
+    return ptr->ReadParams();
+}*/
 
 PluginManager::~PluginManager(){}

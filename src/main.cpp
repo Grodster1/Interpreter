@@ -66,7 +66,7 @@ int main()
   }
   pclose(File);
 
-  //std::cout << ppStream.str() << std::endl;
+  std::cout << ppStream.str() << std::endl;
   while(ppStream >> keyWord){
     if(pManager.isInMap(keyWord)){
       pManager.CreateCmd(keyWord)->PrintSyntax();

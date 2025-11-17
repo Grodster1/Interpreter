@@ -57,6 +57,11 @@ CMakeUserPresets.json
 # Exlude build directory 
 build/
 
+# Ecvlude .vscode directory
+.vscode/
+# Exclude czytaj.to
+./czytaj.to 
+
 ### Linux ###
 *~
 

@@ -78,7 +78,7 @@
         * \return Współrzędne aktualnej pozycji obiektu. Przyjmuje się,
         *         że współrzędne wyrażone są w metrach.
         */
-       virtual const Vector3D & GetPositoin_m() const = 0;
+       virtual const Vector3D & GetPosition_m() const = 0;
        /*!
         * \brief Zmienia współrzędne aktualnej pozycji obiektu.
         *

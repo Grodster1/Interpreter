@@ -13,5 +13,6 @@ public:
     ~PluginManager();
     bool isInMap(const std::string& cmdName) const;
     AbstractInterp4Command* CreateCmd(const std::string& cmdName);
+    //AbstractInterp4Command* ReadParams(const std::istream& Strm_CmdsList, const std::string& cmdName);
 
 };
