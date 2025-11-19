@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <array>
 #include "AbstractInterp4Command.hh"
-#include "PluginManager.hh"
+#include "Set4LibInterfaces.hh"
 
 using namespace std;
 
@@ -49,7 +49,7 @@ int main()
   std::string cmdFile = "./cmd.tmp";
   std::list<std::string> pluginList = {"libInterp4Rotate.so", "libInterp4Set.so", "libInterp4Move.so", "libInterp4Pause.so"};
   std::string keyWord;
-  PluginManager pManager(pluginList);
+  Set4LibInterfaces pManager;
 
   std::string cmd = "cpp " + cmdFile;
   std::stringstream ppStream;
@@ -66,10 +66,16 @@ int main()
   }
   pclose(File);
 
+  pManager.LoadPlugins(pluginList);
+
   std::cout << ppStream.str() << std::endl;
   while(ppStream >> keyWord){
     if(pManager.isInMap(keyWord)){
-      pManager.CreateCmd(keyWord)->PrintSyntax();
+      AbstractInterp4Command* pCmd = pManager.CreateCmd(keyWord);
+      if(pCmd){
+        pCmd->PrintSyntax();
+      }
+      delete pCmd;
     }
   }
 }

@@ -5,14 +5,14 @@
 #include "AbstractInterp4Command.hh"
 #include "LibInterface.hh"
 
-class PluginManager{
+class Set4LibInterfaces{
     std::map<std::string, std::shared_ptr<LibInterface>> _libMap;
 
 public:
-    PluginManager(std::list<std::string> libPaths);
-    ~PluginManager();
+    Set4LibInterfaces();
+    ~Set4LibInterfaces();
+    bool LoadPlugins(const std::list<std::string> & libPaths);
     bool isInMap(const std::string& cmdName) const;
     AbstractInterp4Command* CreateCmd(const std::string& cmdName);
-    //AbstractInterp4Command* ReadParams(const std::istream& Strm_CmdsList, const std::string& cmdName);
 
 };
