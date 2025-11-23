@@ -6,14 +6,13 @@
 #include <cstdlib>
 #include <string>
 #include <array>
-#include "AbstractInterp4Command.hh"
-#include "Set4LibInterfaces.hh"
+#include "ProgramInterpreter.hh"
 
 using namespace std;
 
 int main()
 {
-  std::string cmdFile = "./cmd.tmp";
+  /*std::string cmdFile = "./cmd.tmp";
   std::list<std::string> pluginList = {"libInterp4Rotate.so", "libInterp4Set.so", "libInterp4Move.so", "libInterp4Pause.so"};
   std::string keyWord;
   Set4LibInterfaces pManager;
@@ -47,5 +46,8 @@ int main()
       }
       delete pCmd;
     }
-  }
+  }*/
+  ProgramInterpreter Interp;
+  Interp.Read_XML_Config("../config/config.xml");
+  Interp.ExecProgram("./cmd.tmp");
 }

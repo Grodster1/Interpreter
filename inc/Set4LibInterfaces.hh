@@ -1,3 +1,6 @@
+#ifndef SET4LIBINTERFACES_HH
+#define SET4LIBINTERFACES_HH
+
 #include <map>
 #include <list>
 #include <memory>
@@ -16,3 +19,5 @@ public:
     AbstractInterp4Command* CreateCmd(const std::string& cmdName);
 
 };
+
+#endif

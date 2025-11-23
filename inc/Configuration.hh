@@ -9,8 +9,8 @@ private:
     std::list<std::string> _PluginPaths;
 
 public:
-    Configuration();
-    ~Configuration();
+    Configuration() {};
+    ~Configuration() {};
     void SetPluginsPath(const std::list<std::string>& Paths);
     const std::list<std::string> GetPluginPaths(); 
 };

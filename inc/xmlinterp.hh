@@ -4,7 +4,8 @@
 #include <string>
 #include <list>
 #include <xercesc/util/XMLString.hpp>
-//#include <xercesc/sax2/XMLReaderFactory.hpp>
+#include <xercesc/sax2/SAX2XMLReader.hpp> //ReadFfile
+#include <xercesc/sax2/XMLReaderFactory.hpp> //ReadFile
 #include <xercesc/util/PlatformUtils.hpp>
 #include <xercesc/sax/Locator.hpp>
 
@@ -14,6 +15,9 @@
 //XERCES_CPP_NAMESPACE_USE
 
 #include "Configuration.hh"
+
+
+bool ReadFile(const char* sFileName, Configuration &rConfig);
 
 
 /*!

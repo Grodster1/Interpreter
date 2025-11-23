@@ -14,7 +14,8 @@ src/Set4LibInterfaces.cpp
 src/Cuboid.cpp
 src/Scene.cpp
 src/ProgramInterpreter.cpp
-#src/xmlinterp.cpp
+src/xmlinterp.cpp
+src/Configuration.cpp
 )
 
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wl,-rpath=./plugin")

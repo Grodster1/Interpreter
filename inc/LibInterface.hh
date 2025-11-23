@@ -1,3 +1,7 @@
+#ifndef LIBINTERFACE_HH
+#define LIBINTERFACE_HH
+
+
 #include <string>
 #include "AbstractInterp4Command.hh"
 
@@ -13,3 +17,5 @@ public:
     const std::string& GetCmdName() const {return _cmdName;} 
     AbstractInterp4Command* CreateCmd() {return _pCreateCmd();}
 };
+
+#endif
