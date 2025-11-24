@@ -8,3 +8,7 @@ void Configuration::SetPluginsPath(const std::list<std::string>& Paths){
 const std::list<std::string> Configuration::GetPluginPaths(){
     return _PluginPaths;
 }
+
+Scene& Configuration::GetSceneReference(){
+    return _Scene;
+}

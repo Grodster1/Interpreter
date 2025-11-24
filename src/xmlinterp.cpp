@@ -15,8 +15,7 @@ using namespace xercesc;
  * dodatkowe pola.
  */
 XMLInterp4Config::XMLInterp4Config(Configuration &rConfig) : _rConfig(rConfig)
-{
-}
+{}
 
 
 /*!
@@ -65,7 +64,7 @@ void XMLInterp4Config::ProcessLibAttrs(const xercesc::Attributes  &rAttrs)
 
     // Tu trzeba wpisać własny kod ...
     this->_tempPluginPaths.push_back(sLibName); //DODANE
-
+    
     xercesc::XMLString::release(&sParamName);
     xercesc::XMLString::release(&sLibName);
 }
@@ -88,24 +87,84 @@ void XMLInterp4Config::ProcessCubeAttrs(const xercesc::Attributes  &rAttrs)
     *  Sprawdzamy, czy na pewno jest to Name i Value.
     */
 
-    char* sName_Name = xercesc::XMLString::transcode(rAttrs.getQName(0));
-    char* sName_Scale = xercesc::XMLString::transcode(rAttrs.getQName(1));
-    char* sName_RGB = xercesc::XMLString::transcode(rAttrs.getQName(2));
+    // char* sName_Name = xercesc::XMLString::transcode(rAttrs.getQName(0));
+    // char* sName_Scale = xercesc::XMLString::transcode(rAttrs.getQName(1));
+    // char* sName_RGB = xercesc::XMLString::transcode(rAttrs.getQName(2));
 
-    XMLSize_t  Index = 0;
-    char* sValue_Name    = xercesc::XMLString::transcode(rAttrs.getValue(Index));
-    char* sValue_Scale = xercesc::XMLString::transcode(rAttrs.getValue(1));
-    char* sValue_RGB     = xercesc::XMLString::transcode(rAttrs.getValue(2));
+    // XMLSize_t  Index = 0;
+    // char* sValue_Name    = xercesc::XMLString::transcode(rAttrs.getValue(Index));
+    // char* sValue_Scale = xercesc::XMLString::transcode(rAttrs.getValue(1));
+    // char* sValue_RGB     = xercesc::XMLString::transcode(rAttrs.getValue(2));
+
+    //DODANE
+    char* tmpName;
+    char* tmpValue;
+    istringstream IStrm;
+    Cuboid* pObj = new Cuboid();
+
+    for(XMLSize_t i = 0; i < rAttrs.getLength(); ++i){
+      tmpName = xercesc::XMLString::transcode(rAttrs.getQName(i));
+      tmpValue = xercesc::XMLString::transcode(rAttrs.getValue(i));
+      
+      string sName = tmpName;
+      
+      IStrm.clear();
+      IStrm.str(tmpValue);
+
+      if(sName == "Name"){
+        pObj->SetName(tmpValue);
+      }
+      else if(sName == "RotXYZ_deg"){
+        Vector3D RPY;
+        IStrm >> RPY;
+        pObj->SetRPY(RPY);
+      }
+      else if(sName == "Trans_m"){ //A NIE POS?
+        Vector3D Pos;
+        IStrm >> Pos;
+        pObj->SetPosition_m(Pos);
+      }
+      else if(sName == "Scale"){
+        Vector3D Scale;
+        IStrm >> Scale;
+        pObj->SetScale(Scale);
+      }
+      else if(sName == "Shift"){
+        Vector3D Shift;
+        IStrm >> Shift;
+        pObj->SetShift(Shift);
+      }
+      else if(sName == "RGB"){
+        Vector3D RGB;
+        IStrm >> RGB;
+        pObj->SetRGB(RGB);
+      }
+      xercesc::XMLString::release(&tmpName);
+      xercesc::XMLString::release(&tmpValue);
+    }
+
+    _rConfig.GetSceneReference().AddMobileObj(pObj);
+
+
+
+    cout << "  [DEBUG] Wczytano obiekt:" << endl
+         << "     Name       = \"" << pObj->GetName() << "\"" << endl
+         << "     Scale      = "   << pObj->GetScale() << endl
+         << "     RGB        = "   << pObj->GetRGB() << endl
+         << "     Shift      = "   << pObj->GetShift() << endl
+         << "     Trans_m    = "   << pObj->GetPosition_m() << endl
+         << "     RotXYZ_deg = "   << pObj->GetRPY() << endl
+         << endl;
 
 
     //-----------------------------------------------------------------------------
     // Wyświetlenie nazw atrybutów i ich "wartości"
     //
-    cout << " Atrybuty:" << endl
-        << "     " << sName_Name << " = \"" << sValue_Name << "\"" << endl
-        << "     " << sName_Scale << " = \"" << sValue_Scale << "\"" << endl
-        << "     " << sName_RGB << " = \"" << sValue_RGB << "\"" << endl   
-        << endl; 
+    // cout << " Atrybuty:" << endl
+    //     << "     " << sName_Name << " = \"" << sValue_Name << "\"" << endl
+    //     << "     " << sName_Scale << " = \"" << sValue_Scale << "\"" << endl
+    //     << "     " << sName_RGB << " = \"" << sValue_RGB << "\"" << endl   
+    //     << endl; 
     //-----------------------------------------------------------------------------
     // Przykład czytania wartości parametrów
     // Ten przykład jest zrobiony "na piechotę" wykorzystując osobne zmienne.
@@ -119,27 +178,26 @@ void XMLInterp4Config::ProcessCubeAttrs(const xercesc::Attributes  &rAttrs)
     //
     // IStrm >> Scale;
     //
-    istringstream   IStrm;
+    // istringstream   IStrm;
     
-    IStrm.str(sValue_Scale);
-    double  Sx,Sy,Sz;
+    // IStrm.str(sValue_Scale);
+    // double  Sx,Sy,Sz;
 
-    IStrm >> Sx >> Sy >> Sz;
-    if (IStrm.fail()) {
-        cerr << " Blad!!!" << endl;
-    } else {
-        cout << " Czytanie wartosci OK!!!" << endl;
-        cout << "     " << Sx << "  " << Sy << "  " << Sz << endl;
-    }
+    // IStrm >> Sx >> Sy >> Sz;
+    // if (IStrm.fail()) {
+    //     cerr << " Blad!!!" << endl;
+    // } else {
+    //     cout << " Czytanie wartosci OK!!!" << endl;
+    //     cout << "     " << Sx << "  " << Sy << "  " << Sz << endl;
+    // }
 
     // Tu trzeba wstawić odpowiednio własny kod ...
 
-    xercesc::XMLString::release(&sName_Name);
-    xercesc::XMLString::release(&sName_Scale);
-    xercesc::XMLString::release(&sName_RGB);
-    xercesc::XMLString::release(&sValue_Name);
-    xercesc::XMLString::release(&sValue_Scale);
-    xercesc::XMLString::release(&sValue_RGB);
+
+    // xercesc::XMLString::release(&sName_RGB);
+    // xercesc::XMLString::release(&sValue_Name);
+    // xercesc::XMLString::release(&sValue_Scale);
+    // xercesc::XMLString::release(&sValue_RGB);
 }
 
 

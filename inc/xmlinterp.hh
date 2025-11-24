@@ -3,6 +3,7 @@
 
 #include <string>
 #include <list>
+#include <map>
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/sax2/SAX2XMLReader.hpp> //ReadFfile
 #include <xercesc/sax2/XMLReaderFactory.hpp> //ReadFile
@@ -15,6 +16,8 @@
 //XERCES_CPP_NAMESPACE_USE
 
 #include "Configuration.hh"
+#include "Vector3D.hh"
+#include "Cuboid.hh"
 
 
 bool ReadFile(const char* sFileName, Configuration &rConfig);
@@ -28,6 +31,9 @@ bool ReadFile(const char* sFileName, Configuration &rConfig);
  */
 class XMLInterp4Config : public xercesc::DefaultHandler {
 private:
+
+    enum Attrs {Attr_Name, Attr_RPY, Attr_Position, Attr_Scale, Attr_Shift, Attr_RGB};
+    std::map<std::string, Attrs> _AttrMap;
     Configuration& _rConfig;
     std::list<std::string> _tempPluginPaths;
 
