@@ -16,6 +16,7 @@ src/Scene.cpp
 src/ProgramInterpreter.cpp
 src/xmlinterp.cpp
 src/Configuration.cpp
+src/ComChannel.cpp
 )
 
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wl,-rpath=./plugin")
