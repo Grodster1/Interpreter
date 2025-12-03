@@ -61,9 +61,9 @@ bool Interp4Rotate::ExecCmd( AbstractScene      &rScn,
 			   AbstractComChannel &rComChann
 			 )
 {
-  /*
-   *  Tu trzeba napisać odpowiedni kod.
-   */
+  //IMPLEMENTACJA OBSLUGI PRZEMIESZCZENIA
+
+  rScn.MarkChange();
   return true;
 }
 

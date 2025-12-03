@@ -40,6 +40,11 @@
 	*  \param[in] pMobObj - wskaźnik na istniejący obiekt.
         */
         virtual void AddMobileObj(AbstractMobileObj *pMobObj) = 0;
+
+        // DODANE DLA ETAPU 3
+        virtual void LockAccess() = 0;
+        virtual void UnlockAccess() = 0;
+        virtual void MarkChange() = 0;
   };
 
 #endif

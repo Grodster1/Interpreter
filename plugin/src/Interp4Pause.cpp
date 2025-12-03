@@ -61,9 +61,8 @@ bool Interp4Pause::ExecCmd( AbstractScene      &rScn,
 			   AbstractComChannel &rComChann
 			 )
 {
-  /*
-   *  Tu trzeba napisać odpowiedni kod.
-   */
+  //IMPLEMENTACJA OBSLUGI PRZEMIESZCZENIA
+  rScn.MarkChange();
   return true;
 }
 

@@ -60,9 +60,9 @@ bool Interp4Set::ExecCmd( AbstractScene      &rScn,
 			   AbstractComChannel &rComChann
 			 )
 {
-  /*
-   *  Tu trzeba napisać odpowiedni kod.
-   */
+  //IMPLEMENTACJA OBSLUGI PRZEMIESZCZENIA
+
+  rScn.MarkChange();
   return true;
 }
 
