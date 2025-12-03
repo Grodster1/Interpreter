@@ -97,6 +97,9 @@ void XMLInterp4Config::ProcessCubeAttrs(const xercesc::Attributes  &rAttrs)
     // char* sValue_RGB     = xercesc::XMLString::transcode(rAttrs.getValue(2));
 
     //DODANE
+    /*!
+     * Wczytywanie argumentów z pliku xml, bardziej uniwersalne. Utworzenie obiektu mobileObj o odczytanych parametrach  
+     */
     char* tmpName;
     char* tmpValue;
     istringstream IStrm;
@@ -379,7 +382,9 @@ void XMLInterp4Config::warning(const xercesc::SAXParseException&  rException)
 
 
 
-
+/*! 
+ * Implementacja funkcji ReadFile odpowiedzialnej za otworzenie pliku xml i wywołanie konretnych funkcji z klasy XMLInterp4Config   
+ */
 bool ReadFile(const char* sFileName, Configuration &rConfig)
 {
    try {
