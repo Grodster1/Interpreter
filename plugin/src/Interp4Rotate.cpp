@@ -1,4 +1,6 @@
 #include <iostream>
+#include <unistd.h>
+#include <cmath>
 #include "Interp4Rotate.hh"
 
 
@@ -62,8 +64,49 @@ bool Interp4Rotate::ExecCmd( AbstractScene      &rScn,
 			 )
 {
   //IMPLEMENTACJA OBSLUGI PRZEMIESZCZENIA
+  AbstractMobileObj* pObj = rScn.FindMobileObj(sMobObjName);
+  if (pObj == nullptr) {
+    std::cerr << "Blad: Nie znaleziono obiektu: " << sMobObjName << std::endl;
+    return false;
+  }
 
-  rScn.MarkChange();
+  if (_RotSpeed <= 0) {
+      std::cerr << "Blad: Predkosc obrotu musi byc dodatnia!" << std::endl;
+      return false;
+  }
+
+  const double time_step_s = 0.02; 
+  const int time_step_us = 20000;
+
+  double total_time_s = std::abs(_RotDegree / _RotSpeed);
+  int animation_steps = (int)ceil(total_time_s / time_step_s);
+  
+  if (animation_steps < 1) animation_steps = 1;
+
+  double step_angle = _RotDegree / animation_steps;
+
+  int axis_idx = -1;
+  if(_AxisName=="OX") axis_idx=0;
+  else if(_AxisName=="OY") axis_idx=1;
+  else if(_AxisName=="OZ") axis_idx=2;
+  else{
+    std::cerr << "Blad: Nieznana nazwa osi: " << _AxisName << "(Dostepne: OX OY OZ)" << std::endl;
+    return false;
+  }
+
+
+
+  for(int i = 0; i<animation_steps; ++i){
+    rScn.LockAccess();
+    Vector3D rpy = pObj->GetRPY();
+    rpy[axis_idx] += step_angle;
+    pObj->SetRPY(rpy);
+
+    rScn.MarkChange();
+    rScn.UnlockAccess();
+    usleep(time_step_us);
+  }
+  
   return true;
 }
 

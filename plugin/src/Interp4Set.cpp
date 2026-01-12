@@ -61,8 +61,27 @@ bool Interp4Set::ExecCmd( AbstractScene      &rScn,
 			 )
 {
   //IMPLEMENTACJA OBSLUGI PRZEMIESZCZENIA
+  AbstractMobileObj* pObj = rScn.FindMobileObj(sMobObjName);
+  if (pObj == nullptr) {
+    std::cerr << "Błąd: Nie znaleziono obiektu: " << sMobObjName << std::endl;
+    return false;
+  }
 
+  Vector3D pos;
+  pos[0]=_PosX;
+  pos[1]=_PosY;
+  pos[2]=_PosZ;
+
+  Vector3D angles;
+  angles[0]=_AngleX;
+  angles[1]=_AngleY;
+  angles[2]=_AngleZ;
+
+  rScn.LockAccess();
+  pObj->SetPosition_m(pos);
+  pObj->SetRPY(angles);
   rScn.MarkChange();
+  rScn.UnlockAccess();
   return true;
 }
 

@@ -1,5 +1,8 @@
 #include <iostream>
+#include <unistd.h>
+#include <cmath>
 #include "Interp4Move.hh"
+
 
 
 using std::cout;
@@ -62,8 +65,50 @@ bool Interp4Move::ExecCmd( AbstractScene      &rScn,
 			 )
 {
   //IMPLEMENTACJA OBSLUGI PRZEMIESZCZENIA
+  const double time_step_s = 0.02; 
+  const int time_step_us = 20000;
 
-  rScn.MarkChange();
+  AbstractMobileObj* pObj = rScn.FindMobileObj(sMobObjName);
+  if (pObj == nullptr) {
+    std::cerr << "Blad: Nie znaleziono obiektu: " << sMobObjName << std::endl;
+    return false;
+  }
+  if (_Speed_mmS <= 0) { 
+      std::cerr << "Blad: Predkosc musi byc dodatnia!" << std::endl;
+      return false; 
+  }
+
+  double total_time_s = _Distance / _Speed_mmS;
+  int animation_steps = (int)ceil(total_time_s / time_step_s);
+  
+  if (animation_steps < 1) animation_steps = 1;
+
+  double step_distance = _Distance / animation_steps;
+
+  for(int i = 0; i<animation_steps; ++i){
+    rScn.LockAccess();
+
+    Vector3D pos = pObj->GetPosition_m();
+    double roll = pObj->GetRPY()[0];
+    double pitch = pObj->GetRPY()[1];
+    double yaw = pObj->GetRPY()[2];
+
+    double pitch_rad = pitch*M_PI/180.0;
+    double yaw_rad = yaw*M_PI/180.0;
+
+    double dx = step_distance * cos(pitch_rad) * cos(yaw_rad);
+    double dy = step_distance * cos(pitch_rad) * sin(yaw_rad);
+    double dz = step_distance * sin(pitch_rad);
+
+    pos[0]+=dx;
+    pos[1]+= dy;
+    pos[2]+=dz;
+
+    pObj->SetPosition_m(pos);
+    rScn.MarkChange();
+    rScn.UnlockAccess();
+    usleep(20000);
+  }
   return true;
 }
 

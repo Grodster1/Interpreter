@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 #include "Interp4Pause.hh"
 
 
@@ -62,7 +63,11 @@ bool Interp4Pause::ExecCmd( AbstractScene      &rScn,
 			 )
 {
   //IMPLEMENTACJA OBSLUGI PRZEMIESZCZENIA
-  rScn.MarkChange();
+  if (_PauseTime < 0) {
+      std::cerr << "Blad: Czas pauzy nie może być ujemny!" << std::endl;
+      return false;
+  }
+  usleep(_PauseTime * 1000);
   return true;
 }
 
