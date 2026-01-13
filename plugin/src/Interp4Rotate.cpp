@@ -64,16 +64,16 @@ bool Interp4Rotate::ExecCmd( AbstractScene      &rScn,
 			 )
 {
   //IMPLEMENTACJA OBSLUGI PRZEMIESZCZENIA
-  AbstractMobileObj* pObj = rScn.FindMobileObj(sMobObjName);
+  AbstractMobileObj* pObj = rScn.FindMobileObj(this->_ObjName.c_str());
   if (pObj == nullptr) {
-    std::cerr << "Blad: Nie znaleziono obiektu: " << sMobObjName << std::endl;
+    std::cerr << "Blad: Nie znaleziono obiektu: " << this->_ObjName << std::endl;
     return false;
   }
 
-  if (_RotSpeed <= 0) {
-      std::cerr << "Blad: Predkosc obrotu musi byc dodatnia!" << std::endl;
-      return false;
-  }
+  // if (_RotSpeed <= 0) {
+  //     std::cerr << "Blad: Predkosc obrotu musi byc dodatnia!" << std::endl;
+  //     return false;
+  // }
 
   const double time_step_s = 0.02; 
   const int time_step_us = 20000;

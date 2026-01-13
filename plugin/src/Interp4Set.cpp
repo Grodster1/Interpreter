@@ -61,9 +61,9 @@ bool Interp4Set::ExecCmd( AbstractScene      &rScn,
 			 )
 {
   //IMPLEMENTACJA OBSLUGI PRZEMIESZCZENIA
-  AbstractMobileObj* pObj = rScn.FindMobileObj(sMobObjName);
+  AbstractMobileObj* pObj = rScn.FindMobileObj(this->_ObjName.c_str());
   if (pObj == nullptr) {
-    std::cerr << "Błąd: Nie znaleziono obiektu: " << sMobObjName << std::endl;
+    std::cerr << "Błąd: Nie znaleziono obiektu: " << this->_ObjName << std::endl;
     return false;
   }
 

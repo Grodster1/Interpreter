@@ -31,7 +31,7 @@ AbstractInterp4Command* CreateCmd(void)
 /*!
  *
  */
-Interp4Move::Interp4Move(): obj_name("Jajco"),_Speed_mmS(0), _Distance(0) 
+Interp4Move::Interp4Move(): _ObjName("Jajco"),_Speed_mmS(0), _Distance(0) 
 {}
 
 
@@ -43,7 +43,7 @@ void Interp4Move::PrintCmd() const
   /*
    *  Tu trzeba napisać odpowiednio zmodyfikować kod poniżej.
    */
-  cout << GetCmdName() << " " << obj_name << " " <<  _Speed_mmS  << " " << _Distance << endl;
+  cout << GetCmdName() << " " << _ObjName << " " <<  _Speed_mmS  << " " << _Distance << endl;
 }
 
 
@@ -65,18 +65,18 @@ bool Interp4Move::ExecCmd( AbstractScene      &rScn,
 			 )
 {
   //IMPLEMENTACJA OBSLUGI PRZEMIESZCZENIA
-  const double time_step_s = 0.02; 
-  const int time_step_us = 20000;
-
-  AbstractMobileObj* pObj = rScn.FindMobileObj(sMobObjName);
+  AbstractMobileObj* pObj = rScn.FindMobileObj(this->_ObjName.c_str()); 
   if (pObj == nullptr) {
-    std::cerr << "Blad: Nie znaleziono obiektu: " << sMobObjName << std::endl;
+    std::cerr << "Blad: Nie znaleziono obiektu: " << this->_ObjName << std::endl; // Tu też wyświetl właściwą nazwę
     return false;
   }
-  if (_Speed_mmS <= 0) { 
-      std::cerr << "Blad: Predkosc musi byc dodatnia!" << std::endl;
-      return false; 
-  }
+  // if (_Speed_mmS <= 0) { 
+  //     std::cerr << "Blad: Predkosc musi byc dodatnia!" << std::endl;
+  //     return false; 
+  // }
+
+  const double time_step_s = 0.02; 
+  const int time_step_us = 20000;
 
   double total_time_s = _Distance / _Speed_mmS;
   int animation_steps = (int)ceil(total_time_s / time_step_s);
@@ -107,7 +107,7 @@ bool Interp4Move::ExecCmd( AbstractScene      &rScn,
     pObj->SetPosition_m(pos);
     rScn.MarkChange();
     rScn.UnlockAccess();
-    usleep(20000);
+    usleep(time_step_us);
   }
   return true;
 }
@@ -118,7 +118,7 @@ bool Interp4Move::ExecCmd( AbstractScene      &rScn,
  */
 bool Interp4Move::ReadParams(std::istream& Strm_CmdsList)
 {
-  if(!(Strm_CmdsList >> obj_name)){
+  if(!(Strm_CmdsList >> _ObjName)){
     std::cout << "Nie wczytano poprawnie nazwy obiektu" << std::endl;
     return false;
   }

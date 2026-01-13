@@ -26,7 +26,7 @@ class Interp4Move: public AbstractInterp4Command {
    *  do przechowywania wartości parametrów danego polecenia.
    *  Ponieżej zdefiniowane jest tylko jedno pole jako przykład.
    */
-  std::string obj_name;
+  std::string _ObjName;
   double  _Speed_mmS;
   double _Distance;
   
