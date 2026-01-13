@@ -118,10 +118,7 @@ bool ProgramInterpreter::ExecProgram(const char* sFileName){
             _ComChannel.UnlockAccess();
         }
     }
-    std::string test = "Name=Podstawa RGB=(0,0,255) Scale=(0.7,0.7,0.2) Shift=(0,-0.5,0) RotXYZ_deg=(10,0,0) Trans_m=(0.1,0,0) \n";
-    _ComChannel.LockAccess();
-    _ComChannel.Send(test.c_str());
-    _ComChannel.UnlockAccess();
+
     // ========================================================================
     // KROK 3: Uruchomienie wątku komunikacyjnego (Sender)
     // ========================================================================
