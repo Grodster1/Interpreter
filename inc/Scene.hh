@@ -23,6 +23,9 @@ public:
     virtual void LockAccess() override { AccessControl::LockAccess(); }
     virtual void UnlockAccess() override { AccessControl::UnlockAccess(); }
     virtual void MarkChange() override { AccessControl::MarkChange(); }
+    const std::map<std::string, std::shared_ptr<AbstractMobileObj>>& GetMobileObjs() const {
+        return _Set_MobileObjs;
+    }
 };  
 
 

@@ -12,7 +12,7 @@ private:
 
 
 public:
-    Sender();
+    Sender(Scene *pScene, ComChannel *pComChannel);
     bool ShouldContinueLooping() const { return _ContinueLooping; };
     bool CancelContinueLooping() {_ContinueLooping = false;};
     void Watching_and_Sending();

@@ -48,5 +48,7 @@ public:
     const Vector3D & GetScale() const {return _Scale;}
     const Vector3D & GetShift() const {return _Shift;}
     const Vector3D & GetRGB() const {return _RGB;}  
+
+    virtual std::string GetStateDesc() const override;
 };
 #endif

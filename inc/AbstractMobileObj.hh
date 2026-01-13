@@ -108,6 +108,8 @@
         *  \return Nazwa obiektu.
         */
         virtual const std::string & GetName() const = 0;
+
+        virtual std::string GetStateDesc() const = 0;
     };
 
 
