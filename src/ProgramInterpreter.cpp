@@ -134,14 +134,14 @@ bool ProgramInterpreter::ExecProgram(const char* sFileName){
     }
 
     std::cout << "Koniec programu. Zamykanie..." << std::endl;
-
-    sender.CancelContinueLooping(); 
-    senderThread.join();             
-
-    _ComChannel.LockAccess();
     _ComChannel.Send("Close\n");
-    _ComChannel.UnlockAccess();
-    
+    printf("Tu działa\n");
+    sender.CancelContinueLooping();
+    printf("Tu działa v2\n"); 
+    senderThread.join();     
+    printf("Tu działa v3\n");        
+ 
+    close(_ComChannel.GetSocket());
     
     return true;
 }

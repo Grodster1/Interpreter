@@ -35,6 +35,7 @@ bool ComChannel::OpenConnection(int Port) {
     return true; 
 }
 
+
 int ComChannel::Send(const char* sMsg) {
 
     ssize_t IlWyslanych;
