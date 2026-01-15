@@ -37,37 +37,6 @@ bool ProgramInterpreter::Read_XML_Config(const char* sFileName){
  * Wydobycie z pliku keyWord charakterystycznych dla konkretnych wtyczek i wyświetlenie ich składni.
  * \param[in] sFileName - nazwa pliku z instrukcjami dla obiektu.
  */
-// bool ProgramInterpreter::ExecProgram(const char* sFileName){
-//     std::string cmd = "cpp " + std::string(sFileName); 
-//     FILE* File = popen(cmd.c_str(), "r");
-//     std::stringstream ppStream;
-//     std::array<char, 128> buf;
-//     std::string keyWord;
-
-
-//     if(!File){
-//         std::cerr << "Blad przy wywolaniu funkcji popen()" << std::endl;
-//     return false;
-//     }
-
-//     while(fgets(buf.data(), buf.size(), File)){
-//         ppStream << buf.data();
-//     }
-//     pclose(File);
-
-//     while(ppStream >> keyWord){
-//         if(_LibManager.isInMap(keyWord)){
-//             AbstractInterp4Command* pCmd = _LibManager.CreateCmd(keyWord);
-//             if(pCmd){
-//                 pCmd->PrintSyntax();
-//                 pCmd->ReadParams(ppStream);
-//                 pCmd->PrintCmd();
-//             }
-//             delete pCmd;
-//         }
-//     }
-//     return true;
-// }
 
 bool ProgramInterpreter::ExecProgram(const char* sFileName){
     
@@ -119,19 +88,12 @@ bool ProgramInterpreter::ExecProgram(const char* sFileName){
         }
     }
 
-    // ========================================================================
-    // KROK 3: Uruchomienie wątku komunikacyjnego (Sender)
-    // ========================================================================
     std::cout << "Uruchamianie watku aktualizujacego stan (Sender)..." << std::endl;
     
     Sender sender(&rScn, &_ComChannel);
-    // Uruchamiamy metodę w nowym wątku
     std::thread senderThread(&Sender::Watching_and_Sending, &sender);
 
 
-    // ========================================================================
-    // KROK 4: Przetwarzanie komend z pliku (Główna pętla)
-    // ========================================================================
     std::string cmd = "cpp -P " + std::string(sFileName); 
     FILE* File = popen(cmd.c_str(), "r");
     std::stringstream ppStream;
@@ -171,9 +133,6 @@ bool ProgramInterpreter::ExecProgram(const char* sFileName){
         }
     }
 
-    // ========================================================================
-    // KROK 5: Zakończenie pracy
-    // ========================================================================
     std::cout << "Koniec programu. Zamykanie..." << std::endl;
 
     sender.CancelContinueLooping(); 

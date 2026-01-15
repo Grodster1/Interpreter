@@ -23,15 +23,11 @@ void Sender::Watching_and_Sending()
             _pScene->CancelChange();
             std::stringstream ss;
 
-            // 1. Pobieramy referencję do mapy (bez auto!)
             const std::map<std::string, std::shared_ptr<AbstractMobileObj>> &objects = _pScene->GetMobileObjs();
 
-            // 2. Deklarujemy iterator (bez auto!)
             std::map<std::string, std::shared_ptr<AbstractMobileObj>>::const_iterator it;
 
-            // 3. Pętla for z iteratorem
             for (it = objects.begin(); it != objects.end(); ++it) {
-                // it->first to klucz (string), it->second to wartość (shared_ptr)
                 ss << it->second->GetStateDesc();
             }
 
