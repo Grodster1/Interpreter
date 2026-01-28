@@ -34,6 +34,7 @@ target_link_libraries(${PROJ_NAME} PRIVATE
 
 set_target_properties(${PROJ_NAME} PROPERTIES 
     LINK_FLAGS "-Wl,-rpath=./plugin"
+    ENABLE_EXPORTS TRUE
 )
 
 add_custom_command(TARGET ${PROJ_NAME} POST_BUILD

@@ -32,7 +32,7 @@ LibInterface::LibInterface(const std::string& libPath) : _libHandle(nullptr), _p
 }
 
 LibInterface::~LibInterface(){
-    if(_libHandle){
+    /*if(_libHandle){
         dlclose(_libHandle);
-    }
+    }*/
 }

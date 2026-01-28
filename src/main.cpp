@@ -17,5 +17,5 @@ int main()
 
   ProgramInterpreter Interp;
   Interp.Read_XML_Config("../config/config.xml");
-  Interp.ExecProgram("./cmd.tmp");
+  Interp.ExecProgram("../commands/cmd.txt");
 }

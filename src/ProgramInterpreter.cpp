@@ -1,6 +1,7 @@
 #include "ProgramInterpreter.hh"
 #include "Cuboid.hh"    
 #include <string>
+#include <vector>
 #include <sstream>
 #include <array>
 #include <unistd.h>     
@@ -111,8 +112,29 @@ bool ProgramInterpreter::ExecProgram(const char* sFileName){
         ppStream << buf.data();
     }
     pclose(File);
-
+    std::vector<std::thread> threads;
+    
     while(ppStream >> keyWord){
+
+        if(keyWord == "Begin_Parallel_Actions"){
+            std::cout << "--- Poczatek Bloku Rownoleglego ---" << std::endl;
+            continue;
+        }
+        if (keyWord == "End_Parallel_Actions") {
+            std::cout << "--- Koniec bloku rownoleglego: Czekanie na watki... ---" << std::endl;
+            
+            for (std::thread &th : threads) {
+                if (th.joinable()) {
+                    th.join();
+                }
+            }
+            threads.clear(); 
+            std::cout << "--- Wszystkie watki zakonczone ---" << std::endl;
+            continue;
+        }
+
+
+
         if(_LibManager.isInMap(keyWord)){
             AbstractInterp4Command* pCmd = _LibManager.CreateCmd(keyWord);
             if(pCmd){
@@ -121,26 +143,33 @@ bool ProgramInterpreter::ExecProgram(const char* sFileName){
                     std::cout << "Wykonywanie komendy: ";
                     pCmd->PrintCmd(); 
 
-                    
-                    if (!pCmd->ExecCmd(rScn, "", _ComChannel)) {
-                         std::cerr << "Blad wykonania komendy!" << std::endl;
-                    }
-                } else {
+                    threads.emplace_back([pCmd, &rScn, this](){
+                        if (!pCmd->ExecCmd(rScn, "", this->_ComChannel)) {
+                             std::cerr << "Blad wykonania komendy w watku!" << std::endl;
+                        }
+                        // Ważne: Wątek jest odpowiedzialny za posprzątanie komendy!
+                        delete pCmd;
+                    });
+                }
+                else {
                     std::cerr << "Blad wczytywania parametrow komendy!" << std::endl;
+                    delete pCmd;
                 }
             }
-            delete pCmd;
         }
     }
-
+    for (std::thread &th : threads) {
+        if (th.joinable()) th.join();
+    }
     std::cout << "Koniec programu. Zamykanie..." << std::endl;
-    _ComChannel.Send("Close\n");
-    printf("Tu działa\n");
     sender.CancelContinueLooping();
-    printf("Tu działa v2\n"); 
-    senderThread.join();     
-    printf("Tu działa v3\n");        
- 
+    senderThread.join();
+
+
+    _ComChannel.LockAccess();
+    _ComChannel.Send("Close\n");
+    _ComChannel.UnlockAccess();
+
     close(_ComChannel.GetSocket());
     
     return true;

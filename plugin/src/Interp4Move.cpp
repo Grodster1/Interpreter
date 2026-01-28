@@ -64,49 +64,53 @@ bool Interp4Move::ExecCmd( AbstractScene      &rScn,
 			   AbstractComChannel &rComChann
 			 )
 {
-  //IMPLEMENTACJA OBSLUGI PRZEMIESZCZENIA
   AbstractMobileObj* pObj = rScn.FindMobileObj(this->_ObjName.c_str()); 
   if (pObj == nullptr) {
-    std::cerr << "Blad: Nie znaleziono obiektu: " << this->_ObjName << std::endl; // Tu też wyświetl właściwą nazwę
+    std::cerr << "Blad: Nie znaleziono obiektu: " << this->_ObjName << std::endl;
     return false;
   }
-  // if (_Speed_mmS <= 0) { 
-  //     std::cerr << "Blad: Predkosc musi byc dodatnia!" << std::endl;
-  //     return false; 
-  // }
+
+  if (_Speed_mmS == 0) {
+      std::cerr << "Blad: Predkosc nie moze byc 0!" << std::endl;
+      return false; 
+  }
 
   const double time_step_s = 0.02; 
   const int time_step_us = 20000;
 
-  double total_time_s = _Distance / _Speed_mmS;
-  int animation_steps = (int)ceil(total_time_s / time_step_s);
+  double total_time_s = std::abs(_Distance / _Speed_mmS);
   
+  int animation_steps = (int)ceil(total_time_s / time_step_s);
   if (animation_steps < 1) animation_steps = 1;
 
-  double step_distance = _Distance / animation_steps;
+  double step_distance_m = (_Speed_mmS * time_step_s); 
+  
+  double delta_per_step = _Distance / animation_steps;
+  
 
-  for(int i = 0; i<animation_steps; ++i){
-    rScn.LockAccess();
+  int direction = (_Speed_mmS < 0) ? -1 : 1;
+  delta_per_step *= direction; 
 
+  for(int i = 0; i < animation_steps; ++i){
+    rScn.LockAccess(); 
     Vector3D pos = pObj->GetPosition_m();
-    double roll = pObj->GetRPY()[0];
-    double pitch = pObj->GetRPY()[1];
-    double yaw = pObj->GetRPY()[2];
+    Vector3D rpy = pObj->GetRPY(); 
 
-    double pitch_rad = pitch*M_PI/180.0;
-    double yaw_rad = yaw*M_PI/180.0;
+    double pitch_rad = rpy[1] * M_PI / 180.0;
+    double yaw_rad   = rpy[2] * M_PI / 180.0;
 
-    double dx = step_distance * cos(pitch_rad) * cos(yaw_rad);
-    double dy = step_distance * cos(pitch_rad) * sin(yaw_rad);
-    double dz = step_distance * sin(pitch_rad);
+    double dx = delta_per_step * cos(pitch_rad) * cos(yaw_rad);
+    double dy = delta_per_step * cos(pitch_rad) * sin(yaw_rad);
+    double dz = delta_per_step * sin(pitch_rad);
 
-    pos[0]+=dx;
-    pos[1]+= dy;
-    pos[2]+=dz;
+    pos[0] += dx;
+    pos[1] += dy;
+    pos[2] += dz;
 
     pObj->SetPosition_m(pos);
     rScn.MarkChange();
     rScn.UnlockAccess();
+    
     usleep(time_step_us);
   }
   return true;
